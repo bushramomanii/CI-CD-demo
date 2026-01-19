@@ -1,0 +1,25 @@
+name: CI CD
+on:
+ push:
+   branches: 
+    - main
+jobs:
+ job1:
+   runs-on: ubuntu-latest
+
+   steps:
+     - name: get the files in repo
+       uses: actions/checkout@v4
+
+     - name: sign into docker
+       uses: docker/login-action@v3
+       with:
+         username: ${{ secrets.dockerhub_username}}
+         password: ${{ secrets.dockerhub_token}}
+
+     - name: build and push the docker image
+       uses: docker/build-push-action@v6
+       with:
+         context: .
+         push: true
+         tags: ${{secrets.dockerhub_username}}/gp1demo:latest
