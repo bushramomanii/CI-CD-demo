@@ -1,0 +1,25 @@
+name: lint to check
+on:
+ push:
+   branches:
+     - main
+
+jobs:
+  checkstuff:
+   runs-on: ubuntu-latest
+   steps:
+     - name: get the files in repo
+       uses: actions/checkout@v4
+     - name: use node
+       uses: actions/setup-node@v4
+       with:
+         node-version: "20"
+     - name: check js file  (for syntax)
+       run: node --check app.js
+     - name: check that the main files exist
+       run: |
+          test -f index.html
+          test -f chat.html
+          test -f style.css
+          test -f app.js
+       
